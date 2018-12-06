@@ -13,7 +13,6 @@ RUN apt-get update
 
 # Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /bin/composer \
@@ -59,7 +58,11 @@ RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-install shmop \
     && docker-php-ext-install sysvmsg \
     && docker-php-ext-install sysvsem \
-    && docker-php-ext-install sysvshm
+    && docker-php-ext-install sysvshm \
+    && :\
+    && apt-get install -y libmemcached-dev zlib1g-dev \
+    && pecl install memcached-3.0.4 \
+    && docker-php-ext-enable memcached
     #&& docker-php-ext-install opcache
     #&& docker-php-ext-install pdo_firebird \
     #&& docker-php-ext-install pdo_dblib \
